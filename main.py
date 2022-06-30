@@ -15,7 +15,7 @@ COLUMN_NAMES = [
         'Species'
         ]
 
-data = pd.read_csv('Data/iris_data_categorical.csv', names=COLUMN_NAMES, header=0)
+data = pd.read_csv('Data/iris_data.csv', names=COLUMN_NAMES, header=0)
 
 data['Species'] = data['Species'].astype("category")
 
@@ -31,6 +31,9 @@ sn.heatmap(corrMatt, mask=mask,vmax=.8, square=True,annot=True)
 output_data = data["Species"]
 input_data = data.drop("Species",axis=1)
 X_train, X_test, y_train, y_test = train_test_split(input_data, output_data, test_size=0.3, random_state=42)
+
+y_test = tf.one_hot(y_test, 3)
+y_train = tf.one_hot(y_train, 3)
 
 class IrisClassifier(tf.keras.Model):
         def __init__(self):
